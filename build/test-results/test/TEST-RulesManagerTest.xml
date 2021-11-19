@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="RulesManagerTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2021-11-19T19:56:56" hostname="ar-jsolis-m" time="1.923">
+  <properties/>
+  <testcase name="two variation percentage rules return the correct variation depending on the candidate()" classname="RulesManagerTest" time="1.881"/>
+  <testcase name="evaluate a single rule should return true()" classname="RulesManagerTest" time="0.016"/>
+  <testcase name="chained rules returns false when the parent condition is false()" classname="RulesManagerTest" time="0.003"/>
+  <testcase name="evaluate a two rules should return true when all evaluations are true()" classname="RulesManagerTest" time="0.003"/>
+  <testcase name="chained rules returns true when the parent and its children condition are true()" classname="RulesManagerTest" time="0.003"/>
+  <testcase name="chained rules returns false when its children condition are false()" classname="RulesManagerTest" time="0.003"/>
+  <testcase name="evaluate a two rules should return true when at least on evaluation is true()" classname="RulesManagerTest" time="0.006"/>
+  <testcase name="two sibling rules returns true when at least one rule condition is true()" classname="RulesManagerTest" time="0.003"/>
+  <system-out><![CDATA[998d7756-c8bd-4bc7-8d5f-eacc0a193b58 >> 0.9572
+998d7756-c8bd-4bc7-8d5f-eacc0a193b58 >> 0.9572
+7654bab2-f236-4a3d-95f8-0733686470e8 >> 0.1558
+998d7756-c8bd-4bc7-8d5f-eacc0a193b58 >> 0.2819
+998d7756-c8bd-4bc7-8d5f-eacc0a193b58 >> 0.2819
+998d7756-c8bd-4bc7-8d5f-eacc0a193b58 >> 0.2819
+998d7756-c8bd-4bc7-8d5f-eacc0a193b58 >> 0.2819
+998d7756-c8bd-4bc7-8d5f-eacc0a193b99 >> 0.3137
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
