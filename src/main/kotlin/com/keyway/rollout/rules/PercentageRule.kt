@@ -1,6 +1,7 @@
 package com.keyway.rollout.rules
 
 import com.keyway.rollout.targets.PercentageTarget
+import com.keyway.rollout.targets.ZERO
 import java.math.BigDecimal
 import java.math.RoundingMode
 import kotlin.random.Random
@@ -9,7 +10,8 @@ open class PercentageRule(
     override val name: String,
     override val conditional: ConditionalValueEnum,
     override val children: Set<IRule> = emptySet(),
-    private val percentageTarget: PercentageTarget
+    private val maxPercentageTarget: PercentageTarget,
+    private val minPercentageTarget: PercentageTarget = ZERO
 ): IRule {
 
     private fun randomFactor(candidate: String): BigDecimal {
@@ -20,11 +22,9 @@ open class PercentageRule(
     }
 
     override fun evaluate(candidate: String): Boolean {
-        val decimalTarget = percentageTarget.value
-            .setScale(4, RoundingMode.HALF_EVEN)
-            .div(BigDecimal("100.0000"))
-
-        val targetResult = randomFactor(candidate) <= decimalTarget
+        val randomFactor = randomFactor(candidate)
+        val targetResult = randomFactor <= maxPercentageTarget.getDecimalValue()
+                && randomFactor > minPercentageTarget.getDecimalValue()
         val result = if (conditional == ConditionalValueEnum.INCLUDE) targetResult else !targetResult
         println("$candidate >> ${randomFactor(candidate)}")
         if (!result || children.isNullOrEmpty()) {
