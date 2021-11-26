@@ -25,13 +25,16 @@ class RulesManagerTest {
         "test-rollout",
         ConditionalValueEnum.INCLUDE,
         PercentageTarget(BigDecimal("50.00")),
-        VariationsEnum.A)
+        VariationsEnum.A,
+        PercentageTarget(BigDecimal("00.00"))
+    )
 
     private val variationRuleB = PercentageVariationRule(
         "test-rollout",
         ConditionalValueEnum.INCLUDE,
         PercentageTarget(BigDecimal("100.00")),
-        VariationsEnum.B)
+        VariationsEnum.B,
+        PercentageTarget(BigDecimal("50.00")))
 
     private val collectionRule = CollectionRule(
         "test",
@@ -169,5 +172,29 @@ class RulesManagerTest {
 
         assertEquals(VariationsEnum.B, rulesManager.evaluateVariationRules("998d7756-c8bd-4bc7-8d5f-eacc0a193b58"))
         assertEquals(VariationsEnum.A, rulesManager.evaluateVariationRules( "7654bab2-f236-4a3d-95f8-0733686470e8"))
+    }
+
+    @Test
+    fun `two variation percentage rules return NOT_DEFINED variation`() {
+        val mockRuleProvider = mockk<RulesProvider>()
+        val variationRuleA = PercentageVariationRule(
+            "test-rollout",
+            ConditionalValueEnum.INCLUDE,
+            PercentageTarget(BigDecimal("10.00")),
+            VariationsEnum.A,
+            PercentageTarget(BigDecimal("00.00"))
+        )
+        val variationRuleB = PercentageVariationRule(
+            "test-rollout",
+            ConditionalValueEnum.INCLUDE,
+            PercentageTarget(BigDecimal("20.00")),
+            VariationsEnum.B,
+            PercentageTarget(BigDecimal("10.00"))
+        )
+
+        every { mockRuleProvider.getVariationRules("test") } returns setOf(variationRuleA, variationRuleB)
+        val rulesManager = RulesManager("test", mockRuleProvider)
+
+        assertEquals(VariationsEnum.NOT_DEFINED, rulesManager.evaluateVariationRules("998d7756-c8bd-4bc7-8d5f-eacc0a193b58"))
     }
 }

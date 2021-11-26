@@ -1,18 +1,27 @@
 package com.keyway.rollout.providers
 
+import com.keyway.rollout.fetcher.RulesFetcher
 import com.keyway.rollout.rules.IRule
 import com.keyway.rollout.rules.IVariationRule
 
-abstract class RulesProvider {
+abstract class RulesProvider(
+    rolloutKey: String,
+    rulesFetcher: RulesFetcher) {
 
-    init {
-        validateRules()
+    private var rules: Set<IRule> = rulesFetcher.getRules(rolloutKey)
+    private var variationRules: Set<IVariationRule> = rulesFetcher.getVariationRules(rolloutKey)
+
+    open fun getRules(rolloutKey: String): Set<IRule> {
+        validateRules(rules)
+        return rules
     }
 
-    abstract fun getRules(rolloutKey: String): Set<IRule>
-    abstract fun getVariationRules(rolloutKey: String): Set<IVariationRule>
+    open fun getVariationRules(rolloutKey: String): Set<IVariationRule> {
+        validateRules(variationRules)
+        return variationRules
+    }
 
-    private fun validateRules() {
+    private fun validateRules(rules: Set<IRule>) {
         // Implement basics validations
     }
 }
